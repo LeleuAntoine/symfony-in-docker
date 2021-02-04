@@ -13,3 +13,11 @@ services:
     build: .docker/php-fpm
     volumes:
       - .:/app
+
+  db:
+    image: mysql:8
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

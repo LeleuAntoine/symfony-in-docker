@@ -1,0 +1,27 @@
+<div class="card-group">
+
+    {% for game in games %}
+        <div class="col-md-3" style="float:left">
+            <div class="card mb-2">
+                <a href="{{ path('game', {game: game.id}) }}" class="btn btn-fix text-left">>
+                    <img src="{{ game.photo }}" class="card-img-top" alt="{{ game.name }}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ game.name }}</h4>
+                        <p class="card-text">{{ game.resume }}</p>
+                        <p class="card-footer"><small class="text-muted">
+                                Nombre de téléchargement : {{ game.download }}</small>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+        <p>Aucun Jeux à afficher</p>
+
+    {% endfor %}
+
+</div>
+<div class="navigation">
+    {{ knp_pagination_render(games) }}
+</div>

@@ -10,7 +10,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN chmod uga+x /usr/local/bin/install-php-extensions && \
     sync && \
     install-php-extensions zip \
-                           pdo_pgsql \
+                           pdo_mysql \
                            gd \
                            intl \
                            opcache && \

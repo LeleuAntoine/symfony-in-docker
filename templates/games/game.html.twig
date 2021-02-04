@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <img src="{{ game.photo }}" class="card-img-top" alt="{{ game.name }}">
+        <h1 class="text-center">{{ game.name }}</h1>
+        <p>{{ game.resume }}</p>
+        <p>Nombre de téléchargement : {{ game.download }}</p>
+        <p>Materiel requis : {{ game.materialRequired }}</p>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+App\Entity\Game:
+  game_{1..10}:
+    name: <company()>
+    resume: <realText(500))>
+    materialRequired: 70%? <realText(255))>
+    download: <numberBetween(100, 10000)>
+    creationDate: <dateTimeBetween('-2 years', 'now')>
+    modifiactionDate: <dateTimeBetween($creationDate, 'now')>
+    photo: <imageUrl(640, 480)>
+
+App\Entity\Comment:
+  comment_{1..30}:
+    title: <text(50)>
+    content: <text(500)>
+    creationDate: <dateTimeBetween('-2 years', 'now')>
+    modifiactionDate: <dateTimeBetween($creationDate, 'now')>
+    userId: <numberBetween(1, 100)>
+    game: '@game_*'
