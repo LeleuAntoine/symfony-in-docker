@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,37 +19,40 @@ class Comment
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private string $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="string", length=500)
      */
-    private string $content;
-
-    /**
-     * @ORM\Column(type="date")
-     * @Assert\Range(
-     *     max = "now")
-     */
-    private $creationDate;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\Range(
-     *     max = "now")
-     */
-    private $modifiactionDate;
+    private ?string $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $game;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\Range(min="now")
+     */
+    private ?DateTimeInterface $creationDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Range(min="now")
+     */
+    private ?DateTimeInterface $modificationDate;
+
+    public function __construct()
+    {
+        $this->game = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,40 +83,42 @@ class Comment
         return $this;
     }
 
-    public function getCreationDate(): Date
-    {
-        return $this->creationDate;
-    }
-
     /**
-     * @param Date $creationDate
+     * @return mixed
      */
-    public function setCreationDate(Date $creationDate): void
-    {
-        $this->creationDate = $creationDate;
-    }
-
-    public function getModifiactionDate(): Date
-    {
-        return $this->modifiactionDate;
-    }
-
-    /**
-     * @param Date $modifiactionDate
-     */
-    public function setModifiactionDate(Date $modifiactionDate): void
-    {
-        $this->modifiactionDate = $modifiactionDate;
-    }
-
-    public function getGame(): ?Game
+    public function getGame()
     {
         return $this->game;
     }
 
-    public function setGame(?Game $game): self
+    /**
+     * @param mixed $game
+     */
+    public function setGame($game): void
     {
         $this->game = $game;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getModificationDate(): ?\DateTimeInterface
+    {
+        return $this->modificationDate;
+    }
+
+    public function setModificationDate(?\DateTimeInterface $modificationDate): self
+    {
+        $this->modificationDate = $modificationDate;
 
         return $this;
     }

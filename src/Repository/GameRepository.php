@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,7 +35,7 @@ class GameRepository extends ServiceEntityRepository
     /**
      * @return Game[] Returns a 4-row array of the last added games
      */
-    public function findLastGameAdded($value)
+    public function findLastGameAdded(int $value)
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.id', 'DESC')
@@ -43,10 +44,8 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-//    public function findById($value){
-//        return $this->createQueryBuilder('g')
-//            ->orderBy('g.id', 'DESC')
-//            ->getQuery()
-//            ->getResult();
-//    }
+    public function findAllQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('g');
+    }
 }

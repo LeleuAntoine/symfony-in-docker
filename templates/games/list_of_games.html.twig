@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center">Liste des Jeux</h1>
+    {% block title %}Liste des Jeux{% endblock %}
     {% include 'card/_card.html.twig' %}
 {% endblock %}

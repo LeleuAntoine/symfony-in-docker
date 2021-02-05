@@ -4,9 +4,27 @@
     <div>
         <img src="{{ game.photo }}" class="card-img-top" alt="{{ game.name }}">
         <h1 class="text-center">{{ game.name }}</h1>
-        <p>{{ game.resume }}</p>
-        <p>Nombre de téléchargement : {{ game.download }}</p>
-        <p>Materiel requis : {{ game.materialRequired }}</p>
+        <p class="text-center text-justify">{{ game.resume }}</p>
+        <p class="text-right">Nombre de téléchargement : {{ game.download }}</p>
+        <p class="text-center text-justify">Materiel requis : {{ game.materialRequired }}</p>
     </div>
 
+    <div>
+        {% for comment in comments %}
+            <h4 class="text-left">{{ comment.title }}</h4>
+            <p class="text-left text-justify">{{ comment.content }}</p>
+            <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <h3 class="text-center">Ajouter un nouveau commentaire</h3>
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+        {{ form_row(form.submit, {
+            'attr' : {'class' : 'btn btn-success'}
+        }) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

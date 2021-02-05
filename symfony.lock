@@ -81,6 +81,15 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
     "fakerphp/faker": {
         "version": "v1.13.0"
     },
@@ -302,6 +311,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.0"
     },
+    "symfony/polyfill-uuid": {
+        "version": "v1.22.0"
+    },
     "symfony/profiler-pack": {
         "version": "v1.0.5"
     },
@@ -327,6 +339,30 @@
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
+    },
+    "symfony/security-bundle": {
+        "version": "5.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.1",
+            "ref": "0a4bae19389d3b9cba1ca0102e3b2bccea724603"
+        },
+        "files": [
+            "config/packages/security.yaml"
+        ]
+    },
+    "symfony/security-core": {
+        "version": "v5.2.3"
+    },
+    "symfony/security-csrf": {
+        "version": "v5.2.3"
+    },
+    "symfony/security-guard": {
+        "version": "v5.2.3"
+    },
+    "symfony/security-http": {
+        "version": "v5.2.3"
     },
     "symfony/service-contracts": {
         "version": "v2.2.0"
@@ -372,6 +408,9 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/uid": {
+        "version": "v5.2.3"
     },
     "symfony/validator": {
         "version": "4.3",

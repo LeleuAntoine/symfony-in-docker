@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GameRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,17 +19,17 @@ class Game
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private string $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=1000)
      */
-    private string $resume;
+    private ?string $resume;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -46,24 +47,25 @@ class Game
     private ?string $photo;
 
     /**
-     * @ORM\Column(type="date")
-     * @Assert\Range(max="now")
-     */
-    private $creationDate;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\Range(max="now")
-     */
-    private $modifiactionDate;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="game", orphanRemoval=true)
      */
-    private $comments;
+    private Collection $comments;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\Range(min="now")
+     */
+    private ?DateTimeInterface $creationDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Range(min="now")
+     */
+    private ?DateTimeInterface $modificationDate;
 
     public function __construct()
     {
+        $this->download = 0;
         $this->comments = new ArrayCollection();
     }
 
@@ -164,38 +166,6 @@ class Game
     }
 
     /**
-     * @return Date
-     */
-    public function getCreationDate(): Date
-    {
-        return $this->creationDate;
-    }
-
-    /**
-     * @param Date $creationDate
-     */
-    public function setCreationDate(Date $creationDate): void
-    {
-        $this->creationDate = $creationDate;
-    }
-
-    /**
-     * @return Date|null
-     */
-    public function getModifiactionDate(): ?Date
-    {
-        return $this->modifiactionDate;
-    }
-
-    /**
-     * @param Date|null $modifiactionDate
-     */
-    public function setModifiactionDate(?Date $modifiactionDate): void
-    {
-        $this->modifiactionDate = $modifiactionDate;
-    }
-
-    /**
      * @return Collection|Comment[]
      */
     public function getComments(): Collection
@@ -221,6 +191,30 @@ class Game
                 $comment->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getModificationDate(): ?\DateTimeInterface
+    {
+        return $this->modificationDate;
+    }
+
+    public function setModificationDate(?\DateTimeInterface $modificationDate): self
+    {
+        $this->modificationDate = $modificationDate;
 
         return $this;
     }
