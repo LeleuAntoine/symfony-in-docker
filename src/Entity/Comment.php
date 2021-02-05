@@ -23,11 +23,15 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=50)
      */
     private ?string $title;
 
     /**
      * @ORM\Column(type="string", length=500)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=50)
      */
     private ?string $content;
 
@@ -39,18 +43,17 @@ class Comment
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Range(min="now")
      */
     private ?DateTimeInterface $creationDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Range(min="now")
      */
     private ?DateTimeInterface $modificationDate;
 
     public function __construct()
     {
+        $this->creationDate = new \DateTime();
         $this->game = new ArrayCollection();
     }
 

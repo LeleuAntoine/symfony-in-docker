@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Game;
 use App\Form\CommentType;
-use App\Repository\CommentRepository;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $em;
     private const NUMBER_HOME_MOST_POPULAR = 4;
     private const NUMBER_HOME_LAST_ADDED = 4;
     private const NUMBER_MOST_POPULAR = 16;
@@ -27,6 +23,7 @@ class GameController extends AbstractController
     private const DEFAULT_VALUE = 1;
     private const NUMBER_CARD_PER_PAGE = 8;
 
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -81,30 +78,26 @@ class GameController extends AbstractController
 
     /**
      * @Route("/game/{game<[0-9]+>}", name="game")
+     * @Entity("game", expr="repository.findWithComments(game)")
      */
-    public function gameView(Game $game, Request $request, CommentRepository $commentRepository): Response
+    public function gameView(Game $game, Request $request): Response
     {
-        if (!$game) {
-            $this->createNotFoundException();
-        }
-        $comments = $commentRepository->findByGame($game);
         $newComment = new Comment();
         $newComment->setGame($game);
 
         $form = $this->createForm(CommentType::class, $newComment);
+
         $form->handleRequest($request);
 
-        if ($form->get('submit')->isClicked() && $form->isValid()) {
-            $newComment->setCreationDate(new \DateTime('now'));
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($newComment);
             $this->em->flush();
-            $comments = $commentRepository->findByGame($game);
-        }
 
+            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+        }
 
         return $this->render('games/game.html.twig', [
             'game' => $game,
-            'comments' => $comments,
             'form' => $form->createView(),
         ]);
     }

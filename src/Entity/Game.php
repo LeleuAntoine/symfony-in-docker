@@ -19,7 +19,7 @@ class Game
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -70,51 +70,57 @@ class Game
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
+     * @return Game
      */
-    public function setId(int $id): void
+    public function setId(?int $id): Game
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
+     * @return Game
      */
-    public function setName(string $name): void
+    public function setName(?string $name): Game
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getResume(): string
+    public function getResume(): ?string
     {
         return $this->resume;
     }
 
     /**
-     * @param string $resume
+     * @param string|null $resume
+     * @return Game
      */
-    public function setResume(string $resume): void
+    public function setResume(?string $resume): Game
     {
         $this->resume = $resume;
+        return $this;
     }
 
     /**
@@ -127,10 +133,12 @@ class Game
 
     /**
      * @param string|null $materialRequired
+     * @return Game
      */
-    public function setMaterialRequired(?string $materialRequired): void
+    public function setMaterialRequired(?string $materialRequired): Game
     {
         $this->materialRequired = $materialRequired;
+        return $this;
     }
 
     /**
@@ -143,10 +151,12 @@ class Game
 
     /**
      * @param int $download
+     * @return Game
      */
-    public function setDownload(int $download): void
+    public function setDownload(int $download): Game
     {
         $this->download = $download;
+        return $this;
     }
 
     /**
@@ -159,10 +169,12 @@ class Game
 
     /**
      * @param string|null $photo
+     * @return Game
      */
-    public function setPhoto(?string $photo): void
+    public function setPhoto(?string $photo): Game
     {
         $this->photo = $photo;
+        return $this;
     }
 
     /**

@@ -48,4 +48,16 @@ class GameRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('g');
     }
+
+    public function findWithComments(int $gameId): ?Game
+    {
+        return $this->createQueryBuilder('g')
+            ->leftJoin('g.comments', 'c')
+            ->addSelect('c')
+            ->andWhere('g.id = :id')
+            ->setParameter('id', $gameId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

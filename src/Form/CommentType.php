@@ -15,9 +15,6 @@ class CommentType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('submit', SubmitType::class, [
-                'label' => 'Publier',
-            ])
         ;
     }
 
