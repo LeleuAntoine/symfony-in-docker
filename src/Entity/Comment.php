@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -67,7 +66,7 @@ class Comment
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): Comment
     {
         $this->title = $title;
 
@@ -79,7 +78,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content): Comment
     {
         $this->content = $content;
 
@@ -102,24 +101,24 @@ class Comment
         $this->game = $game;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(DateTimeInterface $creationDate): Comment
     {
         $this->creationDate = $creationDate;
 
         return $this;
     }
 
-    public function getModificationDate(): ?\DateTimeInterface
+    public function getModificationDate(): ?DateTimeInterface
     {
         return $this->modificationDate;
     }
 
-    public function setModificationDate(?\DateTimeInterface $modificationDate): self
+    public function setModificationDate(?DateTimeInterface $modificationDate): Comment
     {
         $this->modificationDate = $modificationDate;
 

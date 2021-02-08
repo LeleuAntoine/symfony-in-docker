@@ -53,13 +53,12 @@ class Game
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\Range(min="now")
+     *
      */
     private ?DateTimeInterface $creationDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Range(min="now")
      */
     private ?DateTimeInterface $modificationDate;
 
@@ -69,111 +68,75 @@ class Game
         $this->comments = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     * @return Game
-     */
     public function setId(?int $id): Game
     {
         $this->id = $id;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     * @return Game
-     */
     public function setName(?string $name): Game
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getResume(): ?string
     {
         return $this->resume;
     }
 
-    /**
-     * @param string|null $resume
-     * @return Game
-     */
     public function setResume(?string $resume): Game
     {
         $this->resume = $resume;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMaterialRequired(): ?string
     {
         return $this->materialRequired;
     }
 
-    /**
-     * @param string|null $materialRequired
-     * @return Game
-     */
     public function setMaterialRequired(?string $materialRequired): Game
     {
         $this->materialRequired = $materialRequired;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getDownload(): int
     {
         return $this->download;
     }
 
-    /**
-     * @param int $download
-     * @return Game
-     */
     public function setDownload(int $download): Game
     {
         $this->download = $download;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPhoto(): ?string
     {
         return $this->photo;
     }
 
-    /**
-     * @param string|null $photo
-     * @return Game
-     */
     public function setPhoto(?string $photo): Game
     {
         $this->photo = $photo;
+
         return $this;
     }
 
@@ -207,24 +170,24 @@ class Game
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
 
         return $this;
     }
 
-    public function getModificationDate(): ?\DateTimeInterface
+    public function getModificationDate(): ?DateTimeInterface
     {
         return $this->modificationDate;
     }
 
-    public function setModificationDate(?\DateTimeInterface $modificationDate): self
+    public function setModificationDate(?DateTimeInterface $modificationDate): self
     {
         $this->modificationDate = $modificationDate;
 

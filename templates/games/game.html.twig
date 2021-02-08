@@ -1,18 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        <img src="{{ game.photo }}" class="card-img-top" alt="{{ game.name }}">
-        <h1 class="text-center">{{ game.name }}</h1>
-        <p class="text-center text-justify">{{ game.resume }}</p>
+    <h1 class="text-center">{{ game.name }}</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="{{ game.photo }}" class="card-img-top" alt="{{ game.name }}">
+            </div>
+            <div class="col">
+                <p class="text-center text-justify">{{ game.resume }}</p>
+                <p class="text-right">Materiel requis : {{ game.materialRequired }}</p>
+
+            </div>
+        </div>
         <p class="text-right">Nombre de téléchargement : {{ game.download }}</p>
-        <p class="text-center text-justify">Materiel requis : {{ game.materialRequired }}</p>
     </div>
 
     <div>
         {% for comment in game.comments %}
             <h4 class="text-left">{{ comment.title }}</h4>
-            <p class="text-left text-justify">{{ comment.content }}</p>
+            <p class="text-left">{{ comment.content }}</p>
             <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
         {% endfor %}
     </div>
@@ -20,10 +27,10 @@
     <div>
         <h3 class="text-center">Ajouter un nouveau commentaire</h3>
         {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.content) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
 
-            <button type="submit" class="btn btn-primary">Publier</button>
+        <button type="submit" class="btn btn-primary">Publier</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}
