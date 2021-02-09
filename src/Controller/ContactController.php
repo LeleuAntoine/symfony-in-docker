@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\DTO\ContactDTO;
 use App\Form\ContactType;
+use App\Mailer\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,28 +23,20 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request, \Swift_Mailer $mailer): Response
+    public function contact(Request $request, Mailer $mailer): Response
     {
+        $contact = new ContactDTO();
 
-        $form = $this->createForm(ContactType::class);
+        $form = $this->createForm(ContactType::class, $contact);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contact = $form->getData();
+            $mailer->sendContactEmail($contact);
 
-            $mail = (new \Swift_Message('Nouveau Contact'))
-                ->setFrom($contact['email'])
-                ->setTo('exemple@email.fr')
-                ->setBody(
-                    $this->renderView(
-                        'Contact/contact_mail.html.twig', compact('contact')
-                    ),
-                    'text/html'
-                );
-            $mailer->send($mail);
+            $this->addFlash('email:success', 'Votre email a bien été envoyé !');
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('contact');
         }
 
         return $this->render('Contact/contact.html.twig', [

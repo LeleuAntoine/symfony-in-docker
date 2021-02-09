@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
-    private const NUMBER_HOME_MOST_POPULAR = 4;
-    private const NUMBER_HOME_LAST_ADDED = 4;
+    private const NUMBER_HOME_MOST_POPULAR = 8;
+    private const NUMBER_HOME_LAST_ADDED = 8;
     private const NUMBER_MOST_POPULAR = 16;
     private const NUMBER_LAST_ADDED = 16;
     private const DEFAULT_VALUE = 1;

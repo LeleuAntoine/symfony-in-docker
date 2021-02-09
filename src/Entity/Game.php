@@ -7,10 +7,12 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=GameRepository::class)
+ * @Vich\Uploadable
  */
 class Game
 {
@@ -44,7 +46,13 @@ class Game
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $photo;
+    private ?string $picture;
+
+    /**
+     * @Vich\UploadableField(mapping="game_image", fileNameProperty="picture")
+     * @var File
+     */
+    private $pictureFile;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="game", orphanRemoval=true)
@@ -128,16 +136,37 @@ class Game
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getPicture(): ?string
     {
-        return $this->photo;
+        return $this->picture;
     }
 
-    public function setPhoto(?string $photo): Game
+    public function setPicture(?string $picture): Game
     {
-        $this->photo = $photo;
+        $this->picture = $picture;
 
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * @param File $pictureFile
+     *
+     */
+    public function setPictureFile(?File $pictureFile = null)
+    {
+        $this->pictureFile = $pictureFile;
+
+        if ($pictureFile != null) {
+            $this->modificationDate = new \DateTime('now');
+        }
     }
 
     /**

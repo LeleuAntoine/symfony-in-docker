@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class GameCrudController extends AbstractCrudController
 {
@@ -19,12 +20,13 @@ class GameCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
+            IdField::new('id')->onlyOnIndex(),
             TextField::new('name', 'Nom'),
             TextField::new('resume', 'Résumé'),
             TextField::new('materialRequired', 'Matériels requis'),
             IntegerField::new('download', 'Nombre de téléchargements'),
-            TextField::new('photo', 'Photo (URL)'),
+            TextField::new('pictureFile', 'Photo (URL)')
+                ->setFormType(VichImageType::class)->hideOnIndex(),
             DateTimeField::new('modificationDate', 'Date de modification')->onlyWhenUpdating(),
             DateTimeField::new('creationDate', 'Date de création')->onlyWhenCreating(),
         ];
