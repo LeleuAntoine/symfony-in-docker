@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -16,6 +17,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Game
 {
+    use SoftDeleteableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -81,7 +84,7 @@ class Game
         return $this->id;
     }
 
-    public function setId(?int $id): Game
+    public function setId(?int $id): self
     {
         $this->id = $id;
 
@@ -93,7 +96,7 @@ class Game
         return $this->name;
     }
 
-    public function setName(?string $name): Game
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -105,7 +108,7 @@ class Game
         return $this->resume;
     }
 
-    public function setResume(?string $resume): Game
+    public function setResume(?string $resume): self
     {
         $this->resume = $resume;
 
@@ -117,7 +120,7 @@ class Game
         return $this->materialRequired;
     }
 
-    public function setMaterialRequired(?string $materialRequired): Game
+    public function setMaterialRequired(?string $materialRequired): self
     {
         $this->materialRequired = $materialRequired;
 
@@ -129,7 +132,7 @@ class Game
         return $this->download;
     }
 
-    public function setDownload(int $download): Game
+    public function setDownload(int $download): self
     {
         $this->download = $download;
 
@@ -141,25 +144,18 @@ class Game
         return $this->picture;
     }
 
-    public function setPicture(?string $picture): Game
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
     public function getPictureFile(): ?File
     {
         return $this->pictureFile;
     }
 
-    /**
-     * @param File $pictureFile
-     *
-     */
     public function setPictureFile(?File $pictureFile = null)
     {
         $this->pictureFile = $pictureFile;

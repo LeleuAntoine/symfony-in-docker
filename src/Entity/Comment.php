@@ -6,6 +6,7 @@ use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
+    use SoftDeleteableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -42,6 +45,7 @@ class Comment
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
      */
     private ?DateTimeInterface $creationDate;
 
@@ -66,7 +70,7 @@ class Comment
         return $this->title;
     }
 
-    public function setTitle(string $title): Comment
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -78,7 +82,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): Comment
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
@@ -86,7 +90,7 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @param mixed $game
      */
     public function getGame()
     {
@@ -106,7 +110,7 @@ class Comment
         return $this->creationDate;
     }
 
-    public function setCreationDate(DateTimeInterface $creationDate): Comment
+    public function setCreationDate(DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
 
@@ -118,7 +122,7 @@ class Comment
         return $this->modificationDate;
     }
 
-    public function setModificationDate(?DateTimeInterface $modificationDate): Comment
+    public function setModificationDate(?DateTimeInterface $modificationDate): self
     {
         $this->modificationDate = $modificationDate;
 

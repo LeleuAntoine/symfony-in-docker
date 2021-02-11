@@ -6,6 +6,7 @@ App\Entity\Game:
     download: <numberBetween(100, 10000)>
     creationDate: <dateTimeBetween('-2 years', 'now')>
     modificationDate: <dateTimeBetween($creationDate, 'now')>
+    picture: <imageUrl(640, 480)>
 
 App\Entity\Comment:
   comment_{1..300}:
@@ -19,4 +20,5 @@ App\Entity\User:
   user:
     email: test@email.com
     roles: ["ROLE_ADMIN"]
-    password: $argon2id$v=19$m=65536,t=4,p=1$dgcAYipMIVdw5mJoS9i5ug$sJ+tnpt9RIzCOs5IBARre8yrLjC/H5jjepbbA3m1SqY
+    password: Oneadmin
+#    $argon2id$v=19$m=65536,t=4,p=1$dgcAYipMIVdw5mJoS9i5ug$sJ+tnpt9RIzCOs5IBARre8yrLjC/H5jjepbbA3m1SqY

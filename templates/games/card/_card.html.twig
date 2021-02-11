@@ -1,19 +1,19 @@
 <div class="card-group">
 
     {% for game in games %}
-        <div class="col-md-3" style="float:left">
-            <div class="card mb-2">
-                <a href="{{ path('game', {game: game.id}) }}" class="btn btn-fix text-left">>
+        <div class="col-md-6" style="float:left">
+            <a href="{{ path('game', {game: game.id}) }}" class="btn btn-fix text-left">
+                <div class="card mb-5">
                     <img src="{{ game.picture }}" class="card-img-top" alt="{{ game.name }}">
                     <div class="card-body">
                         <h4 class="card-title">{{ game.name }}</h4>
                         <p class="card-text">{{ game.resume }}</p>
-                        <p class="card-footer"><small class="text-muted">
-                                Nombre de téléchargement : {{ game.download }}</small>
-                        </p>
+                        <div class="card-footer">
+                            <small class="text-muted">Nombre de téléchargement : {{ game.download }}</small>
+                        </div>
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
 
     {% else %}

@@ -3,34 +3,38 @@
 {% block body %}
     <h1 class="text-center">{{ game.name }}</h1>
     <div class="container">
-        <div class="row">
-            <div class="col">
+        <div class="row g-0">
+            <div class="col-md-4">
                 <img src="{{ game.picture }}" class="card-img-top" alt="{{ game.name }}">
             </div>
-            <div class="col">
-                <p class="text-center text-justify">{{ game.resume }}</p>
-                <p class="text-right">Materiel requis : {{ game.materialRequired }}</p>
+            <div class="col-md-8">
+                <p class="card-text text-center">{{ game.resume }}</p>
+                <p class="card-text">Materiel requis : {{ game.materialRequired }}</p>
 
             </div>
         </div>
-        <p class="text-right">Nombre de téléchargement : {{ game.download }}</p>
+        <p class="card-footer">Nombre de téléchargement : {{ game.download }}</p>
     </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-10">
+            <h2 class="text-center">Commentaires :</h2>
+            <div>
+                {% for comment in game.comments %}
+                    <h4 class="text-left">{{ comment.title }}</h4>
+                    <p class="text-left">{{ comment.content }}</p>
+                    <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
+                {% endfor %}
+            </div>
 
-    <div>
-        {% for comment in game.comments %}
-            <h4 class="text-left">{{ comment.title }}</h4>
-            <p class="text-left">{{ comment.content }}</p>
-            <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
-        {% endfor %}
-    </div>
+            <div>
+                <h3 class="text-center">Ajouter un nouveau commentaire</h3>
+                {{ form_start(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
 
-    <div>
-        <h3 class="text-center">Ajouter un nouveau commentaire</h3>
-        {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.content) }}
-
-        <button type="submit" class="btn btn-primary">Publier</button>
-        {{ form_end(form) }}
+                <button type="submit" class="btn btn-primary">Publier</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
     </div>
 {% endblock %}

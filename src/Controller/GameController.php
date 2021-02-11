@@ -38,10 +38,16 @@ class GameController extends AbstractController
         $MostPopulars = $gameRepository->findGamesMostPopular(self::NUMBER_HOME_MOST_POPULAR);
         $lastGames = $gameRepository->findLastGameAdded(self::NUMBER_HOME_LAST_ADDED);
 
-        return $this->render('games/home.html.twig', [
+
+        $response = $this->render('games/home.html.twig', [
             'lastGames' => $lastGames,
-            'MostPopulars' => $MostPopulars,
+            'mostPopulars' => $MostPopulars,
         ]);
+        $response->setPublic();
+        $response->setMaxAge(180);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 
     /**
