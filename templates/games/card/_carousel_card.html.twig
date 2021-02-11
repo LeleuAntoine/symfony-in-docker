@@ -1,0 +1,36 @@
+{% if loop.first %}
+    <div class="carousel-item active h-100">
+        <div class="col-md-4">
+            <a href="{{ path('game', {game: game.id}) }}">
+                <div class="card mb-3 h-100">
+                    <img src="{{ game.picture }}" class="d-block w-100" alt="{{ game.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ game.name }}</h5>
+                        <p class="card-text text-truncate">{{ game.resume }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-muted">{{ game.download }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endif %}
+{% if not loop.first %}
+    <div class="carousel-item h-100">
+        <div class="col-md-4">
+            <a href="{{ path('game', {game: game.id}) }}">
+                <div class="card mb-3 h-100">
+                    <img src="{{ game.picture }}" class="d-block w-100" alt="{{ game.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ game.name }}</h5>
+                        <p class="card-text text-truncate">{{ game.resume }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-muted">{{ game.download }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endif %}
