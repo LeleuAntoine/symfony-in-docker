@@ -6,14 +6,22 @@ use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
 class Comment
 {
+    use SoftDeleteableEntity;
+
+    /**
+     * Hook SoftDeleteable behavior
+     * updates deletedAt field
+     */
     use SoftDeleteableEntity;
 
     /**

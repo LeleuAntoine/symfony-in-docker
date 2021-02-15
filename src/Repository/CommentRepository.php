@@ -20,4 +20,18 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
+
+    /**
+     * @return Comment[] Returns a array of comments by gameId
+     */
+    public function findComments(int $gameId)
+    {
+        return $this->createQueryBuilder('c')
+            ->setParameter('id', $gameId)
+            ->andWhere('c.game =:id')
+            ->andWhere('c.deletedAt IS NULL')
+            ->orderBy('c.modificationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

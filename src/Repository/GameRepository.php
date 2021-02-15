@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,49 +16,61 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GameRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Game::class);
+        $this->em = $em;
     }
 
     /**
-     * @return Game[] Returns a 4-row array of the most popular games
+     * @return Game[] Returns a array of the most popular games
      */
-    public function findGamesMostPopular(int $value)
+    public function findGamesMostPopular(int $maxResult): array
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.download', 'DESC')
-            ->setMaxResults($value)
+            ->andWhere('g.deletedAt IS NULL')
+            ->setMaxResults($maxResult)
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @return Game[] Returns a 4-row array of the last added games
+     * @return Game[] Returns a array of the last added games
      */
-    public function findLastGameAdded(int $value)
+    public function findLastGameAdded(int $maxResult): array
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.id', 'DESC')
-            ->setMaxResults($value)
+            ->andWhere('g.deletedAt IS NULL')
+            ->setMaxResults($maxResult)
             ->getQuery()
             ->getResult();
     }
 
     public function findAllQueryBuilder(): QueryBuilder
     {
-        return $this->createQueryBuilder('g');
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.id', 'ASC')
+            ->andWhere('g.deletedAt IS NULL');
     }
 
-    public function findWithComments(int $gameId): ?Game
-    {
-        return $this->createQueryBuilder('g')
-            ->leftJoin('g.comments', 'c')
-            ->addSelect('c')
-            ->andWhere('g.id = :id')
-            ->setParameter('id', $gameId)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+//    /**
+//     * @return Game by id
+//     */
+//    public function findWithComments(int $gameId): ?Game
+//    {
+//        return $this->createQueryBuilder('g')
+//            ->andWhere('g.id = :id')
+//            ->leftJoin('g.comments', 'c')
+//            ->setParameter('id', $gameId)
+//            ->andWhere('c.game =:id')
+//            ->andWhere('c.deletedAt IS NULL')
+//            ->orderBy('c.modificationDate', 'DESC')
+//            ->getQuery()
+//            ->getOneOrNullResult();
+//
+//    }
 }

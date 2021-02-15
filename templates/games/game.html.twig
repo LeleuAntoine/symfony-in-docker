@@ -8,7 +8,7 @@
                 <img src="{{ game.picture }}" class="card-img-top" alt="{{ game.name }}">
             </div>
             <div class="col-md-8">
-                <p class="card-text text-center">{{ game.resume }}</p>
+                <p class="card-text">{{ game.resume }}</p>
                 <p class="card-text">Materiel requis : {{ game.materialRequired }}</p>
 
             </div>
@@ -19,10 +19,13 @@
         <div class="col-md-10">
             <h2 class="text-center">Commentaires :</h2>
             <div>
-                {% for comment in game.comments %}
+                {% for comment in comments %}
                     <h4 class="text-left">{{ comment.title }}</h4>
                     <p class="text-left">{{ comment.content }}</p>
+                    {% if not comment.modificationDate %}
                     <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
+                    {% endif %}
+                    <p class="text-right">{{ comment.modificationDate | date('d-m-Y') }}</p>
                 {% endfor %}
             </div>
 

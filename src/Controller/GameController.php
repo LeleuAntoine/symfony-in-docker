@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Game;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +45,6 @@ class GameController extends AbstractController
         ]);
         $response->setPublic();
         $response->setMaxAge(180);
-        $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
     }
@@ -84,12 +83,12 @@ class GameController extends AbstractController
 
     /**
      * @Route("/game/{game<[0-9]+>}", name="game")
-     * @Entity("game", expr="repository.findWithComments(game)")
      */
-    public function gameView(Game $game, Request $request): Response
+    public function gameView(Game $game, CommentRepository $commentRepository, Request $request): Response
     {
         $newComment = new Comment();
         $newComment->setGame($game);
+        $comments = $commentRepository->findComments($game->getId());
 
         $form = $this->createForm(CommentType::class, $newComment);
 
@@ -103,10 +102,37 @@ class GameController extends AbstractController
         }
 
         return $this->render('games/game.html.twig', [
+            'comments' => $comments,
             'game' => $game,
             'form' => $form->createView(),
         ]);
     }
+
+//    /**
+//     * @Route("/game/{game<[0-9]+>}", name="game")
+//     * @Entity("game", expr="repository.findWithComments(game)")
+//     */
+//    public function gameView(Game $game, Request $request): Response
+//    {
+//        $newComment = new Comment();
+//        $newComment->setGame($game);
+//
+//        $form = $this->createForm(CommentType::class, $newComment);
+//
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $this->em->persist($newComment);
+//            $this->em->flush();
+//
+//            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+//        }
+//
+//        return $this->render('games/game.html.twig', [
+//            'game' => $game,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
     /**
      * @Route("/list-of-games", name="list_of_games")
