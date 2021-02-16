@@ -62,6 +62,11 @@ class Comment
      */
     private ?DateTimeInterface $modificationDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->creationDate = new \DateTime();
@@ -133,6 +138,18 @@ class Comment
     public function setModificationDate(?DateTimeInterface $modificationDate): self
     {
         $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

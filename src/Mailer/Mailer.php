@@ -25,6 +25,6 @@ class Mailer
             ->to('exemple@email.fr')
             ->text($contact->getMessage());
 
-        $this->mailer->send($mail);
+//        dd($mail);
     }
 }

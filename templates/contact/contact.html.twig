@@ -10,9 +10,9 @@
     {% endfor %}
 
     {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.message) }}
+    {{ form_row(form.name, { 'label': 'Nom'}) }}
+    {{ form_row(form.email, { 'label': 'Email'}) }}
+    {{ form_row(form.message, { 'label': 'Message'}) }}
 
     <button type="submit" class="btn btn-primary">Publier</button>
     {{ form_end(form) }}

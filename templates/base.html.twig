@@ -9,15 +9,18 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container-fluid">
     <header>
         {% include 'navigation/navigation.html.twig' %}
     </header>
     {% block body %}{% endblock %}
+
+    <footer>
+        {% include 'footer/footer.html.twig' %}
+    </footer>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 </div>
-{% include 'footer/footer.html.twig' %}
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock %}
 </body>
 </html>

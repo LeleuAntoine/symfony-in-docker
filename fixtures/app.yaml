@@ -2,10 +2,10 @@ App\Entity\Game:
   game_{1..100}:
     name: <company()>
     resume: <realText(500))>
-    materialRequired: 70%? <realText(255))>
+    materialRequired: 80%? <realText(255))>
     download: <numberBetween(100, 10000)>
     creationDate: <dateTimeBetween('-2 years', 'now')>
-    modificationDate: <dateTimeBetween($creationDate, 'now')>
+    modificationDate: 30%? <dateTimeBetween($creationDate, 'now')>
     picture: <imageUrl(640, 480)>
 
 App\Entity\Comment:
@@ -13,12 +13,15 @@ App\Entity\Comment:
     title: <text(50)>
     content: <text(500)>
     creationDate: <dateTimeBetween('-2 years', 'now')>
-    modificationDate: <dateTimeBetween($creationDate, 'now')>
+    modificationDate: 30%? <dateTimeBetween($creationDate, 'now')>
     game: '@game_*'
+    user: '@user_*'
 
 App\Entity\User:
-  user:
-    email: test@email.com
-    roles: ["ROLE_ADMIN"]
-    password: Oneadmin
+  user_{1..40}:
+    email: <email()>
+    roles: ["ROLE_USER"]
+    password: <password()>
+    username: <lastName()>
+#    Encode passworneadmin
 #    $argon2id$v=19$m=65536,t=4,p=1$dgcAYipMIVdw5mJoS9i5ug$sJ+tnpt9RIzCOs5IBARre8yrLjC/H5jjepbbA3m1SqY

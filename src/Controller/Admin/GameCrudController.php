@@ -134,7 +134,7 @@ class GameCrudController extends AbstractCrudController
             ->displayIf(fn(Game $game) => $game->getDeletedAt())
             ->linkToCrudAction('cancelSoftDelete');
         //configure a new action for soft delete
-        $softDeleted = Action::new('Soft Delete')
+        $softDeleted = Action::new('Supprimer')
             ->displayIf(fn(Game $game) => !$game->getDeletedAt())
             ->linkToCrudAction('softDelete');
 

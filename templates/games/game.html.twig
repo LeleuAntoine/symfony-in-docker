@@ -1,42 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center">{{ game.name }}</h1>
     <div class="container">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ game.picture }}" class="card-img-top" alt="{{ game.name }}">
-            </div>
-            <div class="col-md-8">
-                <p class="card-text">{{ game.resume }}</p>
-                <p class="card-text">Materiel requis : {{ game.materialRequired }}</p>
 
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ game.picture }}" alt="{{ game.name }}" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ game.name }}</h5>
+                        <p class="card-text">{{ game.resume }}</p>
+                        <p class="card-text">Materiel requis : {{ game.materialRequired }}</p>
+                        <p class="card-text"><small>Nombre de téléchargement : {{ game.download }}</small></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <p class="card-footer">Nombre de téléchargement : {{ game.download }}</p>
-    </div>
-    <div class="row justify-content-md-center">
-        <div class="col-md-10">
-            <h2 class="text-center">Commentaires :</h2>
-            <div>
-                {% for comment in comments %}
-                    <h4 class="text-left">{{ comment.title }}</h4>
-                    <p class="text-left">{{ comment.content }}</p>
-                    {% if not comment.modificationDate %}
-                    <p class="text-right">{{ comment.creationDate | date('d-m-Y') }}</p>
-                    {% endif %}
-                    <p class="text-right">{{ comment.modificationDate | date('d-m-Y') }}</p>
-                {% endfor %}
-            </div>
 
-            <div>
-                <h3 class="text-center">Ajouter un nouveau commentaire</h3>
-                {{ form_start(form) }}
-                {{ form_row(form.title) }}
-                {{ form_row(form.content) }}
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <h2 class="text-center">Commentaires :</h2>
+                <div>
+                    {% for comment in comments %}
+                        <h4 class="text-left">{{ comment.title }}</h4>
+                        <p class="text-left">{{ comment.content }}</p>
+                        {% if not comment.modificationDate %}
+                            <p class="text-right">écrit le :{{ comment.creationDate | date('d-m-Y') }}
+                                par {{ comment.user.username }}</p>
+                        {% endif %}
+                        {% if comment.modificationDate %}
+                        <p class="text-right">modifié le :{{ comment.modificationDate | date('d-m-Y') }}
+                            par {{ comment.user.username }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-                <button type="submit" class="btn btn-primary">Publier</button>
-                {{ form_end(form) }}
+                <div>
+                    <h3 class="text-center">Ajouter un nouveau commentaire</h3>
+                    {{ form_start(form) }}
+                    {{ form_row(form.title, { 'label': 'Titre'}) }}
+                    {{ form_row(form.content, { 'label': 'Text'}) }}
+
+                    <button type="submit" class="btn btn-primary">Publier</button>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>

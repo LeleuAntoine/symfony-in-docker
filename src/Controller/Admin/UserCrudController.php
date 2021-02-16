@@ -145,7 +145,7 @@ class UserCrudController extends AbstractCrudController
             ->linkToCrudAction('cancelSoftDelete');
 
         //set a new action for soft delete
-        $softDeleted = Action::new('Suppréssion')
+        $softDeleted = Action::new('Supprimer')
             ->displayIf(fn(User $user) => !$user->getDeletedAt())
             ->linkToCrudAction('softDelete');
 
