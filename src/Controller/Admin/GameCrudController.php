@@ -62,21 +62,21 @@ class GameCrudController extends AbstractCrudController
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $date = new \DateTime('now');
-        $entityInstance->setDeletedAt($date);
         $comments = $entityInstance->getComments();
         foreach ($comments as $comment) {
             $comment->setDeletedAt($date);
         }
+        $entityInstance->setDeletedAt($date);
         $entityManager->flush();
     }
 
     public function restoreEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletedAt(null);
         $comments = $entityInstance->getComments();
         foreach ($comments as $comment) {
             $comment->setDeletedAt(null);
         }
+        $entityInstance->setDeletedAt(null);
         $entityManager->flush();
     }
 

@@ -34,4 +34,15 @@ class CommentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return Comment[] Returns a array of comments soft deleted
+     */
+    public function findCommentsDeleteAt()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.deletedAt IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }

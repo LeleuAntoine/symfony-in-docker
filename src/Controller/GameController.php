@@ -38,7 +38,6 @@ class GameController extends AbstractController
         $MostPopulars = $gameRepository->findGamesMostPopular(self::NUMBER_HOME_MOST_POPULAR);
         $lastGames = $gameRepository->findLastGameAdded(self::NUMBER_HOME_LAST_ADDED);
 
-
         $response = $this->render('games/home.html.twig', [
             'lastGames' => $lastGames,
             'mostPopulars' => $MostPopulars,

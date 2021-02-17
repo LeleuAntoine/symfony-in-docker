@@ -50,11 +50,25 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Game[] Returns a array of games not soft deleted
+     */
     public function findAllQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.id', 'ASC')
             ->andWhere('g.deletedAt IS NULL');
+    }
+
+    /**
+     * @return Game[] Returns a array of games soft deleted
+     */
+    public function findGamesDeleteAt()
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.deletedAt IS NOT NULL')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

@@ -80,12 +80,20 @@ class UserCrudController extends AbstractCrudController
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $date = new \DateTime('now');
+        $comments = $entityInstance->getComments();
+        foreach ($comments as $comment) {
+            $comment->setDeletedAt($date);
+        }
         $entityInstance->setDeletedAt($date);
         $entityManager->flush();
     }
 
     public function restoreEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        $comments = $entityInstance->getComments();
+        foreach ($comments as $comment) {
+            $comment->setDeletedAt(null);
+        }
         $entityInstance->setDeletedAt(null);
         $entityManager->flush();
     }
