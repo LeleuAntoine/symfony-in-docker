@@ -23,7 +23,9 @@
             <div class="col-md-10">
                 <h2 class="text-center">Commentaires :</h2>
                 <div>
-                    {% for comment in comments %}
+                    <div>
+
+                        {% for comment in comments %}
                         <h4 class="text-left">{{ comment.title }}</h4>
                         <p class="text-left">{{ comment.content }}</p>
                         {% if not comment.modificationDate %}
@@ -31,21 +33,31 @@
                                 par {{ comment.user.username }}</p>
                         {% endif %}
                         {% if comment.modificationDate %}
-                        <p class="text-right">modifié le :{{ comment.modificationDate | date('d-m-Y') }}
-                            par {{ comment.user.username }}</p>
+                            <p class="text-right">modifié le :{{ comment.modificationDate | date('d-m-Y') }}
+                                par {{ comment.user.username }}</p>
                         {% endif %}
+                        {% if comment.user == app.user %}
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a href="game.html.twig" class="btn btn-warning"><i class="fas fa-trash-alt"></i>Modifier</a>
+                        <a href="" class="btn btn-danger"><i class="fas fa-pen-alt"></i>Supprimer</a>
+
+                    </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
 
-                <div>
-                    <h3 class="text-center">Ajouter un nouveau commentaire</h3>
+                {% if app.user %}
                     {{ form_start(form) }}
-                    {{ form_row(form.title, { 'label': 'Titre'}) }}
-                    {{ form_row(form.content, { 'label': 'Text'}) }}
+                    <div>
+                        <h3 class="text-center">Ajouter un nouveau commentaire</h3>
 
-                    <button type="submit" class="btn btn-primary">Publier</button>
-                    {{ form_end(form) }}
-                </div>
+                        <p id="output">{{ form_row(form.title, { 'label': 'Titre'}) }}</p>
+                        {{ form_row(form.content, { 'label': 'Text'}) }}
+                        <button type="submit" class="btn btn-primary">Publier</button>
+                        {{ form_end(form) }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

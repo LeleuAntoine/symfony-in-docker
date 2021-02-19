@@ -90,14 +90,15 @@ class GameController extends AbstractController
         $comments = $commentRepository->findComments($game->getId());
 
         $form = $this->createForm(CommentType::class, $newComment);
+        $newComment->setUser($this->getUser());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($newComment);
-            $this->em->flush();
+                $this->em->persist($newComment);
+                $this->em->flush();
 
-            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+                return $this->redirectToRoute('game', ['game' => $game->getId()]);
         }
 
         return $this->render('games/game.html.twig', [
@@ -106,32 +107,6 @@ class GameController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-//    /**
-//     * @Route("/game/{game<[0-9]+>}", name="game")
-//     * @Entity("game", expr="repository.findWithComments(game)")
-//     */
-//    public function gameView(Game $game, Request $request): Response
-//    {
-//        $newComment = new Comment();
-//        $newComment->setGame($game);
-//
-//        $form = $this->createForm(CommentType::class, $newComment);
-//
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $this->em->persist($newComment);
-//            $this->em->flush();
-//
-//            return $this->redirectToRoute('game', ['game' => $game->getId()]);
-//        }
-//
-//        return $this->render('games/game.html.twig', [
-//            'game' => $game,
-//            'form' => $form->createView(),
-//        ]);
-//    }
 
     /**
      * @Route("/list-of-games", name="list_of_games")
