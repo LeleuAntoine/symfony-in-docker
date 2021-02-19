@@ -14,7 +14,6 @@
         "easycorp/easyadmin-bundle": "^3.2",
         "knplabs/knp-paginator-bundle": "^5.4",
         "sensio/framework-extra-bundle": "^5.6",
-        "stof/doctrine-extensions-bundle": "^1.5",
         "symfony/asset": "5.2.*",
         "symfony/console": "5.2.*",
         "symfony/dotenv": "5.2.*",

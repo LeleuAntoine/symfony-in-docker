@@ -17,11 +17,38 @@ App\Entity\Comment:
     game: '@game_*'
     user: '@user_*'
 
+App\Entity\Card:
+  card_{1..40}:
+    numbercard: <creditCardNumber()>
+    expirationDate: <creditCardExpirationDateString()>
+    visualCryptogram: <numberBetween(100, 999)>
+
 App\Entity\User:
-  user_{1..40}:
-    email: <email()>
-    roles: ["ROLE_USER"]
+  user_1:
+    email (unique): 'test@email.com'
+    roles: [ "ROLE_ADMIN" ]
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$dgcAYipMIVdw5mJoS9i5ug\$sJ+tnpt9RIzCOs5IBARre8yrLjC/H5jjepbbA3m1SqY'
+    username: <lastName()>
+    name: <name()>
+    lastname: <lastName()>
+    street: <streetAddress()>
+    additionalAddress: 33%? <secondaryAddress()>
+    postalCode: <postcode()>
+    city: <city()>
+    card: '@card_1'
+
+  user_{2..40}:
+    email (unique): <safeEmail()>
+    roles: [ "ROLE_USER" ]
     password: <password()>
     username: <lastName()>
-#    Encode passworneadmin
+    name: <name()>
+    lastname: <lastName()>
+    street: <streetAddress()>
+    additionalAddress: 33%? <secondaryAddress()>
+    postalCode: <postcode()>
+    city: <city()>
+    card: '@card_<current()>'
+
+#    Encode password Oneadmin
 #    $argon2id$v=19$m=65536,t=4,p=1$dgcAYipMIVdw5mJoS9i5ug$sJ+tnpt9RIzCOs5IBARre8yrLjC/H5jjepbbA3m1SqY

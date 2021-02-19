@@ -30,13 +30,11 @@ class UserCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-
         return User::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
-
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('email', 'Email'),
@@ -56,7 +54,6 @@ class UserCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-
         return $crud->setFormOptions(
             ['validation_groups' => ['Default', 'new']],
             ['validation_groups' => ['Default']]
@@ -77,89 +74,89 @@ class UserCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $date = new \DateTime('now');
-        $comments = $entityInstance->getComments();
-        foreach ($comments as $comment) {
-            $comment->setDeletedAt($date);
-        }
-        $entityInstance->setDeletedAt($date);
-        $entityManager->flush();
-    }
-
-    public function restoreEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $comments = $entityInstance->getComments();
-        foreach ($comments as $comment) {
-            $comment->setDeletedAt(null);
-        }
-        $entityInstance->setDeletedAt(null);
-        $entityManager->flush();
-    }
-
-    public function softDelete()
-    {
-        $context = $this->getContext();
-        $entityManager = $this->getEntityManager($context);
-        $entityInstance = $this->getEntityInstance($context);
-
-        // call of methode deleteEntity with $entityManager and $entityInstance
-        $this->deleteEntity($entityManager, $entityInstance);
-        $this->addFlash('danger', 'Utilisateur supprimé avec succé !');
-
-        return $this->redirect($this->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->unset(EA::ENTITY_ID)->generateUrl());
-    }
-
-    public function cancelSoftDelete()
-    {
-        $context = $this->getContext();
-        $entityManager = $this->getEntityManager($context);
-        $entityInstance = $this->getEntityInstance($context);
-
-        // call of methode deleteEntity with $entityManager and $entityInstance
-        $this->restoreEntity($entityManager, $entityInstance);
-        $this->addFlash('success', 'Utilisateur restauré avec succé !');
-
-        return $this->redirect($this->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->unset(EA::ENTITY_ID)->generateUrl());
-    }
-
-    public function getContext()
-    {
-        return $this->adminContextProvider->getContext();
-    }
-
-    public function getEntityManager($context)
-    {
-        return $this->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn());
-    }
-
-    public function getEntityInstance($context)
-    {
-        $entityInstance = $context->getEntity()->getInstance();
-        $event = new BeforeEntityDeletedEvent($entityInstance);
-        $this->get('event_dispatcher')->dispatch($event);
-        if ($event->isPropagationStopped()) {
-            return $event->getResponse();
-        }
-        return $event->getEntityInstance();
-    }
-
-    public function configureActions(Actions $actions): Actions
-    {
-        //set a new action for cancel a soft delete
-        $cancelSoftDeleted = Action::new('Annuler la Suppréssion')
-            ->displayIf(fn(User $user) => $user->getDeletedAt())
-            ->linkToCrudAction('cancelSoftDelete');
-
-        //set a new action for soft delete
-        $softDeleted = Action::new('Supprimer')
-            ->displayIf(fn(User $user) => !$user->getDeletedAt())
-            ->linkToCrudAction('softDelete');
-
-        return $actions
-            ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->add(Crud::PAGE_INDEX, $softDeleted)
-            ->add(Crud::PAGE_INDEX, $cancelSoftDeleted);
-    }
+//    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+//    {
+//        $date = new \DateTime('now');
+//        $comments = $entityInstance->getComments();
+//        foreach ($comments as $comment) {
+//            $comment->setDeletedAt($date);
+//        }
+//        $entityInstance->setDeletedAt($date);
+//        $entityManager->flush();
+//    }
+//
+//    public function restoreEntity(EntityManagerInterface $entityManager, $entityInstance): void
+//    {
+//        $comments = $entityInstance->getComments();
+//        foreach ($comments as $comment) {
+//            $comment->setDeletedAt(null);
+//        }
+//        $entityInstance->setDeletedAt(null);
+//        $entityManager->flush();
+//    }
+//
+//    public function softDelete()
+//    {
+//        $context = $this->getContext();
+//        $entityManager = $this->getEntityManager($context);
+//        $entityInstance = $this->getEntityInstance($context);
+//
+//        // call of methode deleteEntity with $entityManager and $entityInstance
+//        $this->deleteEntity($entityManager, $entityInstance);
+//        $this->addFlash('danger', 'Utilisateur supprimé avec succés !');
+//
+//        return $this->redirect($this->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->unset(EA::ENTITY_ID)->generateUrl());
+//    }
+//
+//    public function cancelSoftDelete()
+//    {
+//        $context = $this->getContext();
+//        $entityManager = $this->getEntityManager($context);
+//        $entityInstance = $this->getEntityInstance($context);
+//
+//        // call of methode deleteEntity with $entityManager and $entityInstance
+//        $this->restoreEntity($entityManager, $entityInstance);
+//        $this->addFlash('success', 'Utilisateur restauré avec succés !');
+//
+//        return $this->redirect($this->get(AdminUrlGenerator::class)->setAction(Action::INDEX)->unset(EA::ENTITY_ID)->generateUrl());
+//    }
+//
+//    public function getContext()
+//    {
+//        return $this->adminContextProvider->getContext();
+//    }
+//
+//    public function getEntityManager($context)
+//    {
+//        return $this->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn());
+//    }
+//
+//    public function getEntityInstance($context)
+//    {
+//        $entityInstance = $context->getEntity()->getInstance();
+//        $event = new BeforeEntityDeletedEvent($entityInstance);
+//        $this->get('event_dispatcher')->dispatch($event);
+//        if ($event->isPropagationStopped()) {
+//            return $event->getResponse();
+//        }
+//        return $event->getEntityInstance();
+//    }
+//
+//    public function configureActions(Actions $actions): Actions
+//    {
+//        //set a new action for cancel a soft delete
+//        $cancelSoftDeleted = Action::new('Annuler la Suppréssion')
+//            ->displayIf(fn(User $user) => $user->getDeletedAt())
+//            ->linkToCrudAction('cancelSoftDelete');
+//
+//        //set a new action for soft delete
+//        $softDeleted = Action::new('Supprimer')
+//            ->displayIf(fn(User $user) => !$user->getDeletedAt())
+//            ->linkToCrudAction('softDelete');
+//
+//        return $actions
+//            ->remove(Crud::PAGE_INDEX, Action::DELETE)
+//            ->add(Crud::PAGE_INDEX, $softDeleted)
+//            ->add(Crud::PAGE_INDEX, $cancelSoftDeleted);
+//    }
 }

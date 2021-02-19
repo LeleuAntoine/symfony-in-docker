@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Informations Utilisateur</h3>
+                {{ form_start(form) }}
+                {{ form_row(form.email, { 'label': 'Email'}) }}
+                {{ form_row(form.plainPassword, { 'label': 'Mot de passe'}) }}
+                {{ form_row(form.username, { 'label': 'Pseudo'}) }}
+                {{ form_row(form.name, { 'label': 'Nom'}) }}
+                {{ form_row(form.lastname, { 'label': 'Prénom'}) }}
+                {{ form_row(form.street, { 'label': 'Rue'}) }}
+                {{ form_row(form.additionalAddress, { 'label': 'Complément d\'adresse'}) }}
+                {{ form_row(form.postalCode, { 'label': 'Code postal'}) }}
+                {{ form_row(form.city, { 'label': 'Ville'}) }}
+            </div>
+            <div class="col align-self-end">
+                <ol class="list-group">
+                    <li class="list-group-item list-group-item-success">
+                        <i class="fas fa-check"></i>Accès à plus de 100 jeux PC exceptionnels
+                    </li>
+                    <li class="list-group-item list-group-item-success">
+                        De nouveaux jeux sans cesse ajoutés
+                    </li>
+                    <li class="list-group-item list-group-item-success">
+                        Accédez aux titres Xbox Game Studio le jour même de leur sortie
+                    </li>
+                    <li class="list-group-item list-group-item-success">
+                        Remises et offres pour les membres
+                    </li>
+                </ol>
+                <h3>Informations de paiement</h3>
+                {{ form_row(form.card.numbercard, { 'label': 'Numéro de carte'}) }}
+                {{ form_row(form.card.expirationDate, { 'label': 'Date d\'expiration'}) }}
+                {{ form_row(form.card.visualCryptogram, { 'label': 'Cryptogramme visuel'}) }}
+
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <button type="submit" class="fas fa-check col-8 btn btn-success">S'inscrire</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
