@@ -30,8 +30,15 @@ class UserCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('email', 'Email'),
+            TextField::new('username', 'Pseudo')->onlyOnForms(),
+            TextField::new('name', 'Nom')->onlyOnForms(),
+            TextField::new('lastname', 'Prénom')->onlyOnForms(),
+            TextField::new('street', 'Rue')->onlyOnForms(),
+            TextField::new('additional_address', 'Complément d\'adresse')->onlyOnForms(),
+            TextField::new('postal_code', 'Code Postal')->onlyOnForms(),
+            TextField::new('city', 'Ville')->onlyOnForms(),
             TextField::new('plainPassword', 'Mot de passe')->onlyOnForms(),
-            DateTimeField::new('deletedAt', 'Supprimé')->onlyOnIndex()
+            DateTimeField::new('deletedAt', 'Supprimé')->onlyOnIndex(),
         ];
     }
 
@@ -68,7 +75,7 @@ class UserCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $this->addFlash('danger', 'Utilisateur supprimé avec succés !');
+        $this->addFlash('danger', 'Utilisateur supprimé avec succès !');
         parent::deleteEntity($entityManager, $entityInstance);
     }
 }

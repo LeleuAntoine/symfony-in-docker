@@ -46,7 +46,7 @@ class GameCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $this->addFlash('danger', 'Jeu supprimé avec succés !');
+        $this->addFlash('danger', 'Jeu supprimé avec succès !');
         parent::deleteEntity($entityManager, $entityInstance);
     }
 }

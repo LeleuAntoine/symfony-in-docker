@@ -36,19 +36,31 @@ class HardDeleteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->em->getFilters()->disable('softdeleteable');
+
         $comments = $this->commentRepository->findCommentsDeleteAt();
         $users = $this->userRepository->findUsersDeleteAt();
         $games = $this->gameRepository->findGamesDeleteAt();
 
-        foreach ($comments as $comment) {
-            $this->em->remove($comment);
-        }
-
         foreach ($users as $user) {
+            foreach ($user->getComments() as $comment){
+                $user->removeComment($comment);
+            }
+            $card = $user->getCard();
+            $card->setDeletedAt(new \DateTime('now'));
+            $output->writeln("-> User ".$user->getEmail()." game has been deleted");
+
+            $this->em->remove($card);
             $this->em->remove($user);
         }
 
+        foreach ($comments as $comment) {
+            $output->writeln("-> The ".$comment->getTitle()." comment has been deleted");
+            $this->em->remove($comment);
+        }
+
         foreach ($games as $game) {
+            $output->writeln("-> The ".$game->getName()." game has been deleted");
             $this->em->remove($game);
         }
 

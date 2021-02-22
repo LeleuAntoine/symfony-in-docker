@@ -95,10 +95,12 @@ class GameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                $this->em->persist($newComment);
-                $this->em->flush();
+            $this->em->persist($newComment);
+            $this->em->flush();
 
-                return $this->redirectToRoute('game', ['game' => $game->getId()]);
+            $this->addFlash('success', 'Commentaire créé avec succès');
+
+            return $this->redirectToRoute('game', ['game' => $game->getId()]);
         }
 
         return $this->render('games/game.html.twig', [
@@ -106,6 +108,53 @@ class GameController extends AbstractController
             'game' => $game,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/game/{game<[0-9]+>}/update/comment{comment<[0-9]+>}", name="update_comment")
+     */
+    public function updateComment(Game $game, Comment $comment, CommentRepository $commentRepository, Request $request): Response
+    {
+        $comments = $commentRepository->findComments($game->getId());
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $comment->setUser($this->getUser());
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($comment);
+            $this->em->flush();
+
+            $this->addFlash('warning', 'Commentaire modifié avec succès');
+
+            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+        }
+
+        return $this->render('games/game.html.twig', [
+            'comments' => $comments,
+            'game' => $game,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/game/{game<[0-9]+>}/delete/comment{comment<[0-9]+>}", name="delete_comment")
+     */
+    public function deleteComment(Game $game, Comment $comment): Response
+    {
+        if ($comment->getUser() != $this->getUser()){
+            $this->addFlash('danger', 'Vous n\'avez pas les droits nécessaires');
+
+            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+        }
+        $comment->setDeletedAt(new \DateTime('now'));
+        $this->em->persist($comment);
+        $this->em->flush();
+
+        $this->addFlash('danger', 'Commentaire supprimé avec succès');
+
+        return $this->redirectToRoute('game', ['game' => $game->getId()]);
     }
 
     /**
