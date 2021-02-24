@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Mailer;
+namespace App\MessageHandler;
 
-use App\DTO\ContactDTO;
+use App\Message\SendMail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
 
-class Mailer
+class SendMailHandler implements MessageHandlerInterface
 {
     private MailerInterface $mailer;
     private Environment $twig;
@@ -18,13 +19,13 @@ class Mailer
         $this->twig = $twig;
     }
 
-    public function sendContactEmail(ContactDTO $contact): void
+    public function __invoke(SendMail $sendMail)
     {
         $mail = (new Email())
-            ->From($contact->getEmail())
+            ->From($sendMail->getEmail())
             ->to('exemple@email.fr')
-            ->text($contact->getMessage());
+            ->text($sendMail->getMessage());
 
-        $this->mailer->send($mail);
+        dd($mail);
     }
 }

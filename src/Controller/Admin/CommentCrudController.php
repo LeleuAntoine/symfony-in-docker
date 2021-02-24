@@ -21,8 +21,8 @@ class CommentCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('title', 'Titre'),
+            TextField::new('title', 'Titre'),
             TextField::new('content', 'Résumé')->onlyWhenUpdating(),
-            DateTimeField::new('deletedAt', 'Supprimé')->onlyOnIndex(),
             DateTimeField::new('modificationDate', 'Date de modification')->onlyWhenUpdating(),
             DateTimeField::new('creationDate', 'Date de création')->onlyWhenCreating(),
         ];
@@ -33,5 +33,6 @@ class CommentCrudController extends AbstractCrudController
         $this->addFlash('danger', 'Commentaire supprimé avec succès !');
         parent::deleteEntity($entityManager, $entityInstance);
     }
+
 
 }

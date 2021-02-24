@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,8 @@ class UserController extends AbstractController
     /**
      * @Route("/subscription", name="subscription")
      */
-    public function subscription(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
+    public function subscription(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder,
+                                 UserRepository $userRepository, Request $request): Response
     {
         $user = new User();
 
@@ -25,6 +27,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $usersEmail = $userRepository->findOneBy(['email' => $user->getEmail()]);
+
+            if ($usersEmail){
+                $this->addFlash('danger', 'Email déjà enregistré !');
+                return $this->redirectToRoute('subscription');
+            }
 
             if (method_exists($user, 'setPassword') && $user->getPlainPassword()) {
                 $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());

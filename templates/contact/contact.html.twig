@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Nous contacter</h1>
+    <div class="container">
+        <h1 class="text-center">Nous contacter</h1>
 
-    {% for message in app.flashes('email:success') %}
-        <div class="flash-notice">
-            {{ message }}
+        {% for message in app.flashes('email:success') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.name, { 'label': 'Nom'}) }}
+        {{ form_row(form.email, { 'label': 'Email'}) }}
+        {{ form_row(form.message, { 'label': 'Message'}) }}
+
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+        {{ form_end(form) }}
         </div>
-    {% endfor %}
-
-    {{ form_start(form) }}
-    {{ form_row(form.name, { 'label': 'Nom'}) }}
-    {{ form_row(form.email, { 'label': 'Email'}) }}
-    {{ form_row(form.message, { 'label': 'Message'}) }}
-
-    <button type="submit" class="btn btn-primary">Publier</button>
-    {{ form_end(form) }}
 
 {% endblock %}

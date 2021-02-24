@@ -6,6 +6,7 @@ use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,6 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
+    /**
+     * Hook blameable behavior
+     * updates createdBy, updatedBy fields
+     */
+    use BlameableEntity;
+
     /**
      * Hook SoftDeleteable behavior
      * updates deletedAt field

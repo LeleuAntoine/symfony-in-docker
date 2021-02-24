@@ -6,7 +6,6 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,15 +29,14 @@ class UserCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('email', 'Email'),
-            TextField::new('username', 'Pseudo')->onlyOnForms(),
-            TextField::new('name', 'Nom')->onlyOnForms(),
-            TextField::new('lastname', 'Prénom')->onlyOnForms(),
+            TextField::new('username', 'Pseudo'),
+            TextField::new('name', 'Nom'),
+            TextField::new('lastname', 'Prénom'),
             TextField::new('street', 'Rue')->onlyOnForms(),
             TextField::new('additional_address', 'Complément d\'adresse')->onlyOnForms(),
             TextField::new('postal_code', 'Code Postal')->onlyOnForms(),
             TextField::new('city', 'Ville')->onlyOnForms(),
             TextField::new('plainPassword', 'Mot de passe')->onlyOnForms(),
-            DateTimeField::new('deletedAt', 'Supprimé')->onlyOnIndex(),
         ];
     }
 
@@ -55,7 +53,7 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud->setFormOptions(
             ['validation_groups' => ['Default', 'new']],
-            ['validation_groups' => ['Default']]
+            ['validation_groups' => ['Default']],
         );
     }
 

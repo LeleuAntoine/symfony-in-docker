@@ -36,8 +36,10 @@ class Card
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Date
-     * @var string A "m-Y" formatted value
+     * @var string A "m/Y" formatted value
      * @Assert\NotBlank
+     * @Assert\Length(min=5, max=5,
+     *     exactMessage="Date sous format mm/yy !")
      */
     private $expirationDate;
 

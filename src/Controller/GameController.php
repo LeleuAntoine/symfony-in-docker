@@ -81,6 +81,22 @@ class GameController extends AbstractController
     }
 
     /**
+     * @Route("/list-of-games", name="list_of_games")
+     */
+    public function listOfGames(GameRepository $gameRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $games = $paginator->paginate(
+            $gameRepository->findAllQueryBuilder(),
+            $request->query->getInt('page', self::DEFAULT_VALUE),
+            self::NUMBER_CARD_PER_PAGE
+        );
+
+        return $this->render('games/list_of_games.html.twig', [
+            'games' => $games,
+        ]);
+    }
+
+    /**
      * @Route("/game/{game<[0-9]+>}", name="game")
      */
     public function gameView(Game $game, CommentRepository $commentRepository, Request $request): Response
@@ -95,6 +111,11 @@ class GameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (! $this->getUser()){
+                $this->addFlash('warning', 'Impossible de soumettre le commentaire veuillez vous connecter');
+
+                return $this->redirectToRoute('app_login');
+            }
             $this->em->persist($newComment);
             $this->em->flush();
 
@@ -115,6 +136,12 @@ class GameController extends AbstractController
      */
     public function updateComment(Game $game, Comment $comment, CommentRepository $commentRepository, Request $request): Response
     {
+        if ($comment->getUser() != $this->getUser()){
+            $this->addFlash('danger', 'Vous n\'avez pas les droits nécessaires');
+
+            return $this->redirectToRoute('game', ['game' => $game->getId()]);
+        }
+
         $comments = $commentRepository->findComments($game->getId());
 
         $form = $this->createForm(CommentType::class, $comment);
@@ -155,21 +182,5 @@ class GameController extends AbstractController
         $this->addFlash('danger', 'Commentaire supprimé avec succès');
 
         return $this->redirectToRoute('game', ['game' => $game->getId()]);
-    }
-
-    /**
-     * @Route("/list-of-games", name="list_of_games")
-     */
-    public function listOfGames(GameRepository $gameRepository, PaginatorInterface $paginator, Request $request): Response
-    {
-        $games = $paginator->paginate(
-            $gameRepository->findAllQueryBuilder(),
-            $request->query->getInt('page', self::DEFAULT_VALUE),
-            self::NUMBER_CARD_PER_PAGE
-        );
-
-        return $this->render('games/list_of_games.html.twig', [
-            'games' => $games,
-        ]);
     }
 }

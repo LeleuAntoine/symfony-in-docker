@@ -16,26 +16,27 @@
                 {{ form_row(form.postalCode, { 'label': 'Code postal'}) }}
                 {{ form_row(form.city, { 'label': 'Ville'}) }}
             </div>
-            <div class="col align-self-end">
-                <ol class="list-group">
-                    <li class="list-group-item list-group-item-success">
-                        <i class="fas fa-check"></i>Accès à plus de 100 jeux PC exceptionnels
-                    </li>
-                    <li class="list-group-item list-group-item-success">
-                        De nouveaux jeux sans cesse ajoutés
-                    </li>
-                    <li class="list-group-item list-group-item-success">
-                        Accédez aux titres Xbox Game Studio le jour même de leur sortie
-                    </li>
-                    <li class="list-group-item list-group-item-success">
-                        Remises et offres pour les membres
-                    </li>
-                </ol>
-                <h3>Informations de paiement</h3>
-                {{ form_row(form.card.numbercard, { 'label': 'Numéro de carte'}) }}
-                {{ form_row(form.card.expirationDate, { 'label': 'Date d\'expiration'}) }}
-                {{ form_row(form.card.visualCryptogram, { 'label': 'Cryptogramme visuel'}) }}
-
+            <div class="col d-flex align-items-center">
+                <div>
+                    <ol class="list-group">
+                        <li class="list-group-item list-group-item-success">
+                            <i class="fas fa-check"></i>Accès à plus de 100 jeux PC exceptionnels
+                        </li>
+                        <li class="list-group-item list-group-item-success">
+                            De nouveaux jeux sans cesse ajoutés
+                        </li>
+                        <li class="list-group-item list-group-item-success">
+                            Accédez aux titres le jour même de leur sortie
+                        </li>
+                        <li class="list-group-item list-group-item-success">
+                            Remises et offres pour les membres
+                        </li>
+                    </ol>
+                    <h3>Informations de paiement</h3>
+                    {{ form_row(form.card.numbercard, { 'label': 'Numéro de carte'}) }}
+                    {{ form_row(form.card.expirationDate, { 'label': 'Date d\'expiration (format MM/YY)'}) }}
+                    {{ form_row(form.card.visualCryptogram, { 'label': 'Cryptogramme visuel'}) }}
+                </div>
             </div>
         </div>
         <div class="row justify-content-md-center">

@@ -31,7 +31,6 @@ class GameCrudController extends AbstractCrudController
             TextField::new('resume', 'Résumé')->onlyWhenUpdating(),
             TextField::new('materialRequired', 'Matériels requis')->onlyWhenUpdating(),
             IntegerField::new('download', 'Nombre de téléchargements'),
-            DateTimeField::new('deletedAt', 'Supprimé')->onlyOnIndex(),
             DateTimeField::new('modificationDate', 'Date de modification')->onlyWhenUpdating(),
             DateTimeField::new('creationDate', 'Date de création')->onlyWhenCreating(),
         ];
