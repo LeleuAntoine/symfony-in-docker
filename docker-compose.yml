@@ -19,5 +19,11 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
+  maildev:
+    image: djfarrelly/maildev
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - 1080:80
+
 volumes:
   db-data:

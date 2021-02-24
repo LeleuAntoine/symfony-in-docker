@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\DTO\ContactDTO;
 use App\Form\ContactType;
-use App\Message\SendMail;
+use App\Mailer\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request, SendMail $mailer): Response
+    public function contact(Request $request, Mailer $mailer): Response
     {
         $contact = new ContactDTO();
 
