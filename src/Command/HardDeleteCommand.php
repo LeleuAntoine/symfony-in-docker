@@ -43,30 +43,30 @@ class HardDeleteCommand extends Command
         $games = $this->gameRepository->findGamesDeleteAt();
 
         foreach ($users as $user) {
-            foreach ($user->getComments() as $comment){
+            foreach ($user->getComments() as $comment) {
                 $user->removeComment($comment);
             }
             $card = $user->getCard();
             $card->setDeletedAt(new \DateTime('now'));
-            $output->writeln("-> User ".$user->getEmail()." game has been deleted");
+            $output->writeln('-> User '.$user->getEmail().' game has been deleted');
 
             $this->em->remove($card);
             $this->em->remove($user);
         }
 
         foreach ($comments as $comment) {
-            $output->writeln("-> The ".$comment->getTitle()." comment has been deleted");
+            $output->writeln('-> The '.$comment->getTitle().' comment has been deleted');
             $this->em->remove($comment);
         }
 
         foreach ($games as $game) {
-            $output->writeln("-> The ".$game->getName()." game has been deleted");
+            $output->writeln('-> The '.$game->getName().' game has been deleted');
             $this->em->remove($game);
         }
 
         $this->em->flush();
 
-        $output->writeln("Commande réussie");
+        $output->writeln('Commande réussie');
 
         return Command::SUCCESS;
     }

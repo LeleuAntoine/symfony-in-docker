@@ -22,7 +22,7 @@ class UserManager
         $card = $this->checkCard($user);
         $isNew = !$user->getId();
 
-        if (!$card){
+        if (!$card) {
             return $card;
         }
 
@@ -41,11 +41,12 @@ class UserManager
         return true;
     }
 
-    public function checkCard(User $user):bool
+    public function checkCard(User $user): bool
     {
-        if ($user->getCard() !== null){
+        if (null !== $user->getCard()) {
             return false;
         }
+
         return true;
     }
 }

@@ -17,13 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    /**
+    /*
      * Hook blameable behavior
      * updates createdBy, updatedBy fields
      */
     use BlameableEntity;
-
-    /**
+    /*
      * Hook SoftDeleteable behavior
      * updates deletedAt field
      */

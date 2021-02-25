@@ -12,19 +12,19 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210217134144 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE card CHANGE numbercard numbercard VARCHAR(50) NOT NULL, CHANGE expiration_date expiration_date VARCHAR(50) NOT NULL');
         $this->addSql('ALTER TABLE user CHANGE postal_code postal_code VARCHAR(50) NOT NULL');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE card CHANGE numbercard numbercard INT NOT NULL, CHANGE expiration_date expiration_date DATE NOT NULL');

@@ -18,12 +18,9 @@ class UserVoter extends Voter
 
     /**
      * @param string $attribute
-     * @param User $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
+     * @param User   $subject
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token):bool
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         /** @var User $user */
         $user = $token->getUser();

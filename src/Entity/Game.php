@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Game
 {
-    /**
+    /*
      * Hook SoftDeleteable behavior
      * updates deletedAt field
      */
@@ -59,6 +59,7 @@ class Game
 
     /**
      * @Vich\UploadableField(mapping="game_image", fileNameProperty="picture")
+     *
      * @var File
      */
     private $pictureFile;
@@ -70,7 +71,6 @@ class Game
 
     /**
      * @ORM\Column(type="datetime")
-     *
      */
     private ?DateTimeInterface $creationDate;
 
@@ -166,7 +166,7 @@ class Game
     {
         $this->pictureFile = $pictureFile;
 
-        if ($pictureFile !== null) {
+        if (null !== $pictureFile) {
             $this->modificationDate = new \DateTime('now');
         }
     }

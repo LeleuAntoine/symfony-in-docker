@@ -24,10 +24,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $save = $userManager->save($user);
 
-            if (!$save){
+            if (!$save) {
                 $this->addFlash('danger', 'Veuillez renseigner votre moyen de paiement');
 
                 return $this->redirectToRoute('subscription');

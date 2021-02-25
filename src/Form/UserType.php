@@ -15,34 +15,34 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, array(
-                'required' => true
-            ))
-            ->add('plainPassword', PasswordType::class, array(
-                'required' => true
-            ))
-            ->add('username', TextType::class, array(
-                'required' => true
-            ))
-            ->add('name', TextType::class, array(
-                'required' => true
-            ))
-            ->add('lastname', TextType::class, array(
-                'required' => true
-            ))
-            ->add('street', TextType::class, array(
-                'required' => true
-            ))
+            ->add('email', EmailType::class, [
+                'required' => true,
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'required' => true,
+            ])
+            ->add('username', TextType::class, [
+                'required' => true,
+            ])
+            ->add('name', TextType::class, [
+                'required' => true,
+            ])
+            ->add('lastname', TextType::class, [
+                'required' => true,
+            ])
+            ->add('street', TextType::class, [
+                'required' => true,
+            ])
             ->add('additionalAddress', TextType::class)
-            ->add('postalCode', TextType::class, array(
-                'required' => true
-            ))
-            ->add('city', TextType::class, array(
-                'required' => true
-            ))
-            ->add('card', CardType::class, array(
-                'required' => true
-            ))
+            ->add('postalCode', TextType::class, [
+                'required' => true,
+            ])
+            ->add('city', TextType::class, [
+                'required' => true,
+            ])
+            ->add('card', CardType::class, [
+                'required' => true,
+            ])
         ;
     }
 

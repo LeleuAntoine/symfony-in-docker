@@ -19,11 +19,7 @@ class CommentVoter extends Voter
     }
 
     /**
-     * @param string $attribute
      * @param Comment $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {

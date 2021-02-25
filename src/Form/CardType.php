@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Card;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,15 +14,15 @@ class CardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numbercard', TextType::class, array(
-                'required' => true
-            ))
-            ->add('expirationDate',TextType::class, array(
-                'required' => true
-            ))
-            ->add('visualCryptogram', IntegerType::class, array(
-                'required' => true
-            ))
+            ->add('numbercard', TextType::class, [
+                'required' => true,
+            ])
+            ->add('expirationDate', TextType::class, [
+                'required' => true,
+            ])
+            ->add('visualCryptogram', IntegerType::class, [
+                'required' => true,
+            ])
         ;
     }
 

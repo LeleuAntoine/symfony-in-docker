@@ -20,13 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-    /**
+    /*
      * Hook blameable behavior
      * updates createdBy, updatedBy fields
      */
     use BlameableEntity;
-
-    /**
+    /*
      * Hook SoftDeleteable behavior
      * updates deletedAt field
      */
@@ -118,18 +117,11 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    /**
-     * @param string|null $plainPassword
-     * @return User
-     */
     public function setPlainPassword(?string $plainPassword): User
     {
         $this->setRoles(['ROLE_USER']);
@@ -162,7 +154,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string)$this->username;
+        return (string) $this->username;
     }
 
     /**
@@ -187,7 +179,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self

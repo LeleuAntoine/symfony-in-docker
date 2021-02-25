@@ -9,14 +9,12 @@ use App\Manager\CommentManager;
 use App\Repository\GameRepository;
 use App\Security\Voter\CommentVoter;
 use App\Security\Voter\UserVoter;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class GameController extends AbstractController
 {
@@ -130,7 +128,7 @@ class GameController extends AbstractController
      * @Route("/game/{game<[0-9]+>}/comment/{comment<[0-9]+>}/update", name="update_comment")
      * @Entity("game", expr="repository.findWithCommentsAndUsers(game)")
      */
-    public function updateComment(Game $game, Comment $comment, CommentManager $commentManager,Request $request): Response
+    public function updateComment(Game $game, Comment $comment, CommentManager $commentManager, Request $request): Response
     {
         $this->denyAccessUnlessGranted(CommentVoter::COMMENT_EDIT, $comment);
 

@@ -33,6 +33,4 @@ class CommentCrudController extends AbstractCrudController
         $this->addFlash('danger', 'Commentaire supprimé avec succès !');
         parent::deleteEntity($entityManager, $entityInstance);
     }
-
-
 }
