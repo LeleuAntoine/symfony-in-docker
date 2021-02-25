@@ -29,7 +29,7 @@ class Card
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank
+     * @Assert\NotBlank()
      */
     private $numbercard;
 
@@ -37,20 +37,20 @@ class Card
      * @ORM\Column(type="string", length=50)
      * @Assert\Date
      * @var string A "m/Y" formatted value
-     * @Assert\NotBlank
-     * @Assert\Length(min=5, max=5,
-     *     exactMessage="Date sous format mm/yy !")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5, max=5, exactMessage="Date sous format mm/yy !")
      */
     private $expirationDate;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank
+     * @Assert\NotBlank()
      */
     private $visualCryptogram;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="card", cascade={"persist", "remove"})
+     * @Assert\NotBlank()
      */
     private $user;
 

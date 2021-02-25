@@ -1,15 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+    {% set flash_messages = app.session.flashbag.all %}
+
+    {% if flash_messages|length > 0 %}
+        <div id="flash-messages">
+            {% for label, messages in flash_messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        &times;
+                        {{ message|trans|raw }}
+                        <button type="button" class="close" onclick="this.closest('div').style.display='none'">
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="row justify-content-md-center">
         <div class="col col-lg-4">
             <h1 class="text-center">Nous contacter</h1>
-
-            {% for message in app.flashes('email:success') %}
-                <div class="flash-notice">
-                    {{ message }}
-                </div>
-            {% endfor %}
 
             {{ form_start(form) }}
             {{ form_row(form.name, { 'label': 'Nom'}) }}

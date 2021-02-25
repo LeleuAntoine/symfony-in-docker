@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Game;
 use App\Form\CommentType;
-use App\Repository\CommentRepository;
+use App\Manager\CommentManager;
 use App\Repository\GameRepository;
+use App\Security\Voter\CommentVoter;
+use App\Security\Voter\UserVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class GameController extends AbstractController
 {
@@ -22,13 +26,6 @@ class GameController extends AbstractController
     private const NUMBER_LAST_ADDED = 16;
     private const DEFAULT_VALUE = 1;
     private const NUMBER_CARD_PER_PAGE = 8;
-
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
 
     /**
      * @Route("/", name="home")
@@ -98,26 +95,25 @@ class GameController extends AbstractController
 
     /**
      * @Route("/game/{game<[0-9]+>}", name="game")
+     * @Entity("game", expr="repository.findWithCommentsAndUsers(game)")
      */
-    public function gameView(Game $game, CommentRepository $commentRepository, Request $request): Response
+    public function gameView(Game $game, CommentManager $commentManager, Request $request): Response
     {
+        $user = $this->getUser();
+
         $newComment = new Comment();
         $newComment->setGame($game);
-        $comments = $commentRepository->findComments($game->getId());
 
         $form = $this->createForm(CommentType::class, $newComment);
-        $newComment->setUser($this->getUser());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (! $this->getUser()){
-                $this->addFlash('warning', 'Impossible de soumettre le commentaire veuillez vous connecter');
+            $this->denyAccessUnlessGranted(UserVoter::COMMENT_POST, $user);
 
-                return $this->redirectToRoute('app_login');
-            }
-            $this->em->persist($newComment);
-            $this->em->flush();
+            $newComment->setUser($this->getUser());
+
+            $commentManager->save($newComment);
 
             $this->addFlash('success', 'Commentaire créé avec succès');
 
@@ -125,33 +121,27 @@ class GameController extends AbstractController
         }
 
         return $this->render('games/game.html.twig', [
-            'comments' => $comments,
             'game' => $game,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/game/{game<[0-9]+>}/update/comment{comment<[0-9]+>}", name="update_comment")
+     * @Route("/game/{game<[0-9]+>}/comment/{comment<[0-9]+>}/update", name="update_comment")
+     * @Entity("game", expr="repository.findWithCommentsAndUsers(game)")
      */
-    public function updateComment(Game $game, Comment $comment, CommentRepository $commentRepository, Request $request): Response
+    public function updateComment(Game $game, Comment $comment, CommentManager $commentManager,Request $request): Response
     {
-        if ($comment->getUser() != $this->getUser()){
-            $this->addFlash('danger', 'Vous n\'avez pas les droits nécessaires');
-
-            return $this->redirectToRoute('game', ['game' => $game->getId()]);
-        }
-
-        $comments = $commentRepository->findComments($game->getId());
+        $this->denyAccessUnlessGranted(CommentVoter::COMMENT_EDIT, $comment);
 
         $form = $this->createForm(CommentType::class, $comment);
-        $comment->setUser($this->getUser());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($comment);
-            $this->em->flush();
+            $comment->setUser($this->getUser());
+
+            $commentManager->save($comment);
 
             $this->addFlash('warning', 'Commentaire modifié avec succès');
 
@@ -159,7 +149,6 @@ class GameController extends AbstractController
         }
 
         return $this->render('games/game.html.twig', [
-            'comments' => $comments,
             'game' => $game,
             'form' => $form->createView(),
         ]);
@@ -168,16 +157,11 @@ class GameController extends AbstractController
     /**
      * @Route("/game/{game<[0-9]+>}/delete/comment{comment<[0-9]+>}", name="delete_comment")
      */
-    public function deleteComment(Game $game, Comment $comment): Response
+    public function deleteComment(Game $game, Comment $comment, CommentManager $commentManager): Response
     {
-        if ($comment->getUser() != $this->getUser()){
-            $this->addFlash('danger', 'Vous n\'avez pas les droits nécessaires');
+        $this->denyAccessUnlessGranted(CommentVoter::COMMENT_DELETE, $comment);
 
-            return $this->redirectToRoute('game', ['game' => $game->getId()]);
-        }
-        $comment->setDeletedAt(new \DateTime('now'));
-        $this->em->persist($comment);
-        $this->em->flush();
+        $commentManager->delete($comment);
 
         $this->addFlash('danger', 'Commentaire supprimé avec succès');
 

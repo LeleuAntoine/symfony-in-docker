@@ -1,6 +1,25 @@
 {% extends 'base.html.twig' %}
+{% block title %}{{ game.name }}{% endblock %}
 
 {% block body %}
+
+    {% set flash_messages = app.session.flashbag.all %}
+
+    {% if flash_messages|length > 0 %}
+        <div id="flash-messages">
+            {% for label, messages in flash_messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        &times;
+                        {{ message|trans|raw }}
+                        <button type="button" class="close" onclick="this.closest('div').style.display='none'">
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="container">
 
         <div class="card">
@@ -8,8 +27,8 @@
                 <div class="col-md-4">
                     <img src="{{ game.picture }}" alt="{{ game.name }}" class="img-fluid">
                     {% if app.user %}
-                    <a href="#"
-                       class="container-fluid btn btn-success">Téléchargement</a>
+                        <a href="#"
+                           class="container-fluid btn btn-success">Téléchargement</a>
                     {% endif %}
                 </div>
                 <div class="col-md-8">
@@ -26,7 +45,7 @@
         <div class="row justify-content-md-center">
             <div class="col-md-10">
                 <h2 class="text-center">Commentaires :</h2>
-                {% for comment in comments %}
+                {% for comment in game.comments %}
                     <div>
                         <h4 class="text-left">{{ comment.title }}</h4>
                         <p class="text-left">{{ comment.content }}</p>
@@ -38,17 +57,21 @@
                             <p class="text-right">modifié le :{{ comment.modificationDate | date('d-m-Y') }}
                                 par {{ comment.user.username }}</p>
                         {% endif %}
-                        {% if comment.user == app.user %}
-                            <div class="d-flex justify-content-end">
-                                <div>
+
+                        <div class="d-flex justify-content-end">
+                            <div>
+                                {% if is_granted(constant('App\\Security\\Voter\\CommentVoter::COMMENT_EDIT'), comment) %}
                                     <a href="{{ path('update_comment', {game: game.id, comment : comment.id}) }}"
                                        class="btn btn-warning"><i class="fas fa-pen-alt"></i>Modifier</a>
+                                {% endif %}
 
+                                {% if is_granted(constant('App\\Security\\Voter\\CommentVoter::COMMENT_DELETE'), comment) %}
                                     <a href="{{ path('delete_comment', {game: game.id, comment : comment.id}) }}"
                                        class="btn btn-danger"><i class="fas fa-pen-alt"></i>Supprimer</a>
-                                </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                        </div>
+
                     </div>
                 {% endfor %}
             </div>

@@ -1,6 +1,25 @@
 {% extends 'base.html.twig' %}
+{% block title %}Acceuil{% endblock %}
 
 {% block body %}
+
+    {% set flash_messages = app.session.flashbag.all %}
+
+    {% if flash_messages|length > 0 %}
+        <div id="flash-messages">
+            {% for label, messages in flash_messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        &times;
+                        {{ message|trans|raw }}
+                        <button type="button" class="close" onclick="this.closest('div').style.display='none'">
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="container">
         <div>
             <h1 class="text-center">AllGames</h1>

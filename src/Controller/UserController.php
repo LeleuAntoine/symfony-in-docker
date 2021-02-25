@@ -4,21 +4,18 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/subscription", name="subscription")
      */
-    public function subscription(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder,
-                                 UserRepository $userRepository, Request $request): Response
+    public function subscription(Request $request, UserManager $userManager): Response
     {
         $user = new User();
 
@@ -27,20 +24,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $usersEmail = $userRepository->findOneBy(['email' => $user->getEmail()]);
 
-            if ($usersEmail){
-                $this->addFlash('danger', 'Email déjà enregistré !');
+            $save = $userManager->save($user);
+
+            if (!$save){
+                $this->addFlash('danger', 'Veuillez renseigner votre moyen de paiement');
+
                 return $this->redirectToRoute('subscription');
             }
-
-            if (method_exists($user, 'setPassword') && $user->getPlainPassword()) {
-                $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-                $user->setPassword($encodedPassword);
-            }
-
-            $entityManager->persist($user);
-            $entityManager->flush();
 
             $this->addFlash('success', 'Votre compte a bien été créé !');
 

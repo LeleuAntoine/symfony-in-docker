@@ -166,7 +166,7 @@ class Game
     {
         $this->pictureFile = $pictureFile;
 
-        if ($pictureFile != null) {
+        if ($pictureFile !== null) {
             $this->modificationDate = new \DateTime('now');
         }
     }

@@ -57,7 +57,8 @@ class GameRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.id', 'ASC')
-            ->andWhere('g.deletedAt IS NULL');
+            ->andWhere('g.deletedAt IS NULL')
+        ;
     }
 
     /**
@@ -69,6 +70,20 @@ class GameRepository extends ServiceEntityRepository
             ->andWhere('g.deletedAt IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findWithCommentsAndUsers(int $id): ?Game
+    {
+        return $this->findAllQueryBuilder()
+            ->leftJoin('g.comments', 'c')
+            ->addSelect('c')
+            ->join('c.user', 'u')
+            ->addSelect('u')
+            ->andWhere('g.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**
